@@ -4,6 +4,7 @@ import { Platform } from "react-native";
 import Colors from "../constants/Colors";
 
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
+import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -23,7 +24,8 @@ const config = Platform.select({
 
 const ProductsStack = createStackNavigator(
   {
-    ProductsOverview: ProductsOverviewScreen
+    ProductsOverview: ProductsOverviewScreen,
+    ProductDetail: ProductDetailScreen
   },
   {
     defaultNavigationOptions: config

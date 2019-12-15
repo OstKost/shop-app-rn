@@ -1,5 +1,14 @@
 import React from "react";
-import { View, Text, Button, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform
+} from "react-native";
 
 import Colors from "../../constants/Colors";
 
@@ -10,24 +19,39 @@ const ProductsItem = ({
   goToDetails,
   addToCart
 }) => {
+  let TouchableWrapper = TouchableOpacity;
+  if (Platform.OS === "android" && Platform.Version >= 21) {
+    TouchableWrapper = TouchableNativeFeedback;
+  }
+
   return (
     <View style={styles.product}>
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: imageUrl }} />
-      </View>
+      <View style={styles.touchableContainer}>
+        <TouchableWrapper onPress={goToDetails} useForeground>
+          <View>
+            <View style={styles.imageContainer}>
+              <Image style={styles.image} source={{ uri: imageUrl }} />
+            </View>
 
-      <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.price}>{`$${price.toFixed(2)}`}</Text>
-      </View>
+            <View style={styles.detailsContainer}>
+              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.price}>{`$${price.toFixed(2)}`}</Text>
+            </View>
 
-      <View style={styles.actionsContainer}>
-        <Button color={Colors.primary} title="Details" onPress={goToDetails} />
-        <Button
-          color={Colors.primary}
-          title="Add to cart"
-          onPress={addToCart}
-        />
+            <View style={styles.actionsContainer}>
+              <Button
+                color={Colors.primary}
+                title="Details"
+                onPress={goToDetails}
+              />
+              <Button
+                color={Colors.primary}
+                title="Add to cart"
+                onPress={addToCart}
+              />
+            </View>
+          </View>
+        </TouchableWrapper>
       </View>
     </View>
   );
@@ -46,6 +70,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 300,
     margin: 24
+  },
+  touchableContainer: {
+    borderRadius: 10,
+    overflow: "hidden"
   },
   imageContainer: {
     width: "100%",
