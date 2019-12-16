@@ -1,11 +1,15 @@
+import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
+import { createDrawerNavigator } from "react-navigation-drawer";
 import { Platform } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
 import CartScreen from "../screens/shop/CartScreen";
+import OrdersScreen from "../screens/shop/OrdersScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -20,6 +24,12 @@ const config = Platform.select({
       backgroundColor: "white"
     },
     headerTintColor: Colors.primary
+  },
+  headerTitleStyle: {
+    fontFamily: "ubuntu"
+  },
+  headerBackTitleStyle: {
+    fontFamily: "ubuntu"
   }
 });
 
@@ -30,16 +40,47 @@ const ProductsStack = createStackNavigator(
     Cart: CartScreen
   },
   {
-    defaultNavigationOptions: {
-      ...config,
-      headerTitleStyle: {
-        fontFamily: "ubuntu"
-      },
-      headerBackTitleStyle: {
-        fontFamily: "ubuntu"
-      }
+    navigationOptions: {
+      drawerIcon: drawerConfig => (
+        <Ionicons
+          name={Platform.OS === "android" ? "mi-cart" : "ios-cart"}
+          size={24}
+          color={drawerConfig.tintColor}
+        />
+      )
+    },
+    defaultNavigationOptions: config
+  }
+);
+
+const OrdersStack = createStackNavigator(
+  {
+    Orders: OrdersScreen
+  },
+  {
+    navigationOptions: {
+      drawerIcon: drawerConfig => (
+        <Ionicons
+          name={Platform.OS === "android" ? "mi-create" : "ios-create"}
+          size={24}
+          color={drawerConfig.tintColor}
+        />
+      )
+    },
+    defaultNavigationOptions: config
+  }
+);
+
+const ShopDrawer = createDrawerNavigator(
+  {
+    Products: ProductsStack,
+    Orders: OrdersStack
+  },
+  {
+    contentOptions: {
+      activeTintColor: Colors.primary
     }
   }
 );
 
-export default ProductsStack;
+export default ShopDrawer;
