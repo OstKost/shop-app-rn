@@ -28,7 +28,15 @@ const ProductsStack = createStackNavigator(
     ProductDetail: ProductDetailScreen
   },
   {
-    defaultNavigationOptions: config
+    defaultNavigationOptions: {
+      ...config,
+      headerTitleStyle: {
+        fontFamily: "ubuntu"
+      },
+      headerBackTitleStyle: {
+        fontFamily: "ubuntu"
+      }
+    }
   }
 );
 
