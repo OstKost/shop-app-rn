@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { ADD_TO_CART } from "../actions/cart";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cart";
 import CartItem from "../../models/cartItem";
 
 const initialState = {
@@ -8,14 +8,17 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const product = action.payload || {};
-  const { id, title, price } = product;
   const { items, totalAmount } = state;
+  let updatedCartItem;
+  let itemInCart;
   switch (action.type) {
+    // ADD
     case ADD_TO_CART:
-      const itemInCart = items.find(item => item.id === id);
+      const { product = {} } = action;
+      const { id, title, price } = product;
+      itemInCart = items.find(item => item.id === id);
       if (itemInCart) {
-        const updatedCartItem = new CartItem(
+        updatedCartItem = new CartItem(
           id,
           title,
           itemInCart.quantity + 1,
@@ -38,6 +41,34 @@ export default (state = initialState, action) => {
         ...state,
         items: [...items, newCartItem],
         totalAmount: totalAmount + price
+      };
+    // REMOVE
+    case REMOVE_FROM_CART:
+      const { productId } = action;
+      itemInCart = items.find(item => item.id === productId);
+      if (itemInCart.quantity > 1) {
+        updatedCartItem = new CartItem(
+          itemInCart.id,
+          itemInCart.title,
+          itemInCart.quantity - 1,
+          itemInCart.price,
+          itemInCart.sum - itemInCart.price
+        );
+        return {
+          ...state,
+          items: items.map(item => {
+            if (item.id === productId) {
+              return updatedCartItem;
+            }
+            return item;
+          }),
+          totalAmount: totalAmount - itemInCart.price
+        };
+      }
+      return {
+        ...state,
+        items: items.filter(item => item.id !== productId),
+        totalAmount: totalAmount - itemInCart.price
       };
 
     default:

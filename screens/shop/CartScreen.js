@@ -1,14 +1,18 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
 
+import * as cartActions from "../../redux/actions/cart";
+import * as ordersActions from "../../redux/actions/orders";
+
 const CartScreen = () => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => state.cart.items);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -23,11 +27,19 @@ const CartScreen = () => {
           title="Order Now"
           color={Colors.accent}
           disabled={cartItems.lenght === 0}
+          onPress={() => {
+            dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
+          }}
         />
       </View>
       <FlatList
         data={cartItems}
-        renderItem={({ item }) => <CartItem {...item} />}
+        renderItem={({ item }) => (
+          <CartItem
+            {...item}
+            onRemove={() => dispatch(cartActions.removeFromCart(item.id))}
+          />
+        )}
       />
     </View>
   );
