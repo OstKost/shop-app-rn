@@ -43,7 +43,7 @@ const ProductsStack = createStackNavigator(
     navigationOptions: {
       drawerIcon: drawerConfig => (
         <Ionicons
-          name={Platform.OS === "android" ? "mi-cart" : "ios-cart"}
+          name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
           size={24}
           color={drawerConfig.tintColor}
         />
@@ -61,7 +61,7 @@ const OrdersStack = createStackNavigator(
     navigationOptions: {
       drawerIcon: drawerConfig => (
         <Ionicons
-          name={Platform.OS === "android" ? "mi-create" : "ios-create"}
+          name={Platform.OS === "android" ? "md-create" : "ios-create"}
           size={24}
           color={drawerConfig.tintColor}
         />
