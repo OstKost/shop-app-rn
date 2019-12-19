@@ -1,8 +1,9 @@
 import { ADD_ORDER } from "../actions/orders";
 import Order from "../../models/order";
+import { ORDERS } from "../../data/mock.data";
 
 const initialState = {
-  orders: []
+  orders: ORDERS || []
 };
 
 export default (state = initialState, action) => {

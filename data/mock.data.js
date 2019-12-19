@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import Product from "../models/product";
 
 export const PRODUCTS = [
@@ -49,4 +51,36 @@ export const PRODUCTS = [
     "Can be used for role-playing (not the kind of role-playing you're thinking about...).",
     5.49
   )
+];
+
+export const ORDERS = [
+  {
+    id: "test order",
+    items: [
+      {
+        id: "p1",
+        quantity: 2,
+        price: 29.99,
+        title: "Red Shirt",
+        sum: 59.98
+      },
+      {
+        id: "p2",
+        quantity: 1,
+        price: 99.99,
+        title: "Blue Carpet",
+        sum: 99.99
+      },
+      {
+        id: "p3",
+        quantity: 1,
+        price: 8.99,
+        title: "Coffee Mug",
+        sum: 8.99
+      }
+    ],
+    totalAmount: 168.96,
+    date: new Date(),
+    readableDate: moment(new Date()).format("MMMM Do YYYY, hh:mm")
+  }
 ];
