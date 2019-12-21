@@ -2,6 +2,7 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cart";
 import CartItem from "../../models/cartItem";
 import { ADD_ORDER } from "../actions/orders";
+import { DELETE_PRODUCT } from "../actions/products";
 
 const initialState = {
   items: [],
@@ -12,6 +13,7 @@ export default (state = initialState, action) => {
   const { items, totalAmount } = state;
   let updatedCartItem;
   let itemInCart;
+  let productId;
   switch (action.type) {
     // ADD
     case ADD_TO_CART:
@@ -45,7 +47,7 @@ export default (state = initialState, action) => {
       };
     // REMOVE
     case REMOVE_FROM_CART:
-      const { productId } = action;
+      productId = action.productId;
       itemInCart = items.find(item => item.id === productId);
       if (itemInCart.quantity > 1) {
         updatedCartItem = new CartItem(
@@ -74,7 +76,16 @@ export default (state = initialState, action) => {
     // Clear ORDER
     case ADD_ORDER:
       return initialState;
-
+    // Delete product from everywhere
+    case DELETE_PRODUCT:
+      productId = action.productId;
+      itemInCart = items.find(item => item.id === productId);
+      if (!itemInCart) return state;
+      return {
+        ...state,
+        items: items.filter(item => item.id !== productId),
+        totalAmount: totalAmount - itemInCart.sum
+      };
     default:
       return state;
   }
