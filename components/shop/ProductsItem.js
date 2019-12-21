@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   Text,
-  Button,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -10,15 +9,7 @@ import {
   Platform
 } from "react-native";
 
-import Colors from "../../constants/Colors";
-
-const ProductsItem = ({
-  title,
-  price = 0,
-  imageUrl,
-  goToDetails,
-  addToCart
-}) => {
+const ProductsItem = ({ title, price = 0, imageUrl, onSelect, children }) => {
   let TouchableWrapper = TouchableOpacity;
   if (Platform.OS === "android" && Platform.Version >= 21) {
     TouchableWrapper = TouchableNativeFeedback;
@@ -27,7 +18,7 @@ const ProductsItem = ({
   return (
     <View style={styles.product}>
       <View style={styles.touchableContainer}>
-        <TouchableWrapper onPress={goToDetails} useForeground>
+        <TouchableWrapper onPress={onSelect} useForeground>
           <View>
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{ uri: imageUrl }} />
@@ -38,18 +29,7 @@ const ProductsItem = ({
               <Text style={styles.price}>{`$${price.toFixed(2)}`}</Text>
             </View>
 
-            <View style={styles.actionsContainer}>
-              <Button
-                color={Colors.primary}
-                title="Details"
-                onPress={goToDetails}
-              />
-              <Button
-                color={Colors.primary}
-                title="Add to cart"
-                onPress={addToCart}
-              />
-            </View>
+            <View style={styles.actionsContainer}>{children}</View>
           </View>
         </TouchableWrapper>
       </View>
