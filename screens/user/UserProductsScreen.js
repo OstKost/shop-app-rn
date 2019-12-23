@@ -10,16 +10,27 @@ import * as productsActions from "../../redux/actions/products";
 import ProductsItem from "../../components/shop/ProductsItem";
 import HeaderButton from "../../components/UI/HeaderButton";
 
-const UserProductsScreen = () => {
+const UserProductsScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const userProducts = useSelector(({ products }) => products.userProducts);
+
+  const selectItemHandler = item => {
+    navigation.navigate("EditProduct", {
+      productId: item.id,
+      productTitle: item.title
+    });
+  };
 
   return (
     <FlatList
       data={userProducts}
       renderItem={({ item }) => (
         <ProductsItem {...item}>
-          <Button color={Colors.primary} title="Edit" onPress={() => {}} />
+          <Button
+            color={Colors.primary}
+            title="Edit"
+            onPress={() => selectItemHandler(item)}
+          />
           <Button
             color={Colors.primary}
             title="Delete"
@@ -46,8 +57,8 @@ UserProductsScreen.navigationOptions = navData => ({
     <HeaderButtons HeaderButtonComponent={HeaderButton}>
       <Item
         title="Cart"
-        iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
-        onPress={() => navData.navigation.navigate("Cart")}
+        iconName={Platform.OS === "android" ? "md-add" : "ios-add"}
+        onPress={() => navData.navigation.navigate("EditProduct")}
       />
     </HeaderButtons>
   )

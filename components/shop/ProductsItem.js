@@ -67,8 +67,9 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   detailsContainer: {
+    justifyContent: "center",
     alignItems: "center",
-    height: "15%"
+    height: "20%"
   },
   title: {
     fontSize: 18,
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "25%",
+    height: "20%",
     paddingHorizontal: 16
   }
 });
