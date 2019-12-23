@@ -5,6 +5,6 @@ export default class Product {
     this.imageUrl = imageUrl;
     this.title = title;
     this.description = description;
-    this.price = price;
+    this.price = Number(price);
   }
 }

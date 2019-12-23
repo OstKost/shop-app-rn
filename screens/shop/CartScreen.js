@@ -8,6 +8,7 @@ import CartItem from "../../components/shop/CartItem";
 
 import * as cartActions from "../../redux/actions/cart";
 import * as ordersActions from "../../redux/actions/orders";
+import Card from "../../components/UI/Card";
 
 const CartScreen = () => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -16,7 +17,7 @@ const CartScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.summary}>
+      <Card style={styles.summary}>
         <View style={styles.summaryText}>
           <Text style={styles.summaryTitle}>Total: </Text>
           <Text style={styles.summaryAmount}>
@@ -31,7 +32,7 @@ const CartScreen = () => {
             dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
           }}
         />
-      </View>
+      </Card>
       <FlatList
         data={cartItems}
         renderItem={({ item }) => (
@@ -56,13 +57,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "space-between",
     marginVertical: 16,
-    padding: 16,
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    backgroundColor: "white"
+    padding: 16
   },
   summaryText: {
     flexDirection: "row",
